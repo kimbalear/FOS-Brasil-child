@@ -8,6 +8,7 @@ export const validate = () => {
     const occupationInput = document.getElementById('id_profile_field_occupation');
     const genderInput = document.getElementById('id_profile_field_gender');
     const occupationOtherInput = document.getElementById("fitem_id_profile_field_occupation_other");
+    const occupationSocialMediaInput = document.getElementById("id_profile_field_occupation_socialmedia_label");
     const genderOtherInput = document.getElementById("fitem_id_profile_field_gender_other");
 
     form.addEventListener('submit', function(event) {
@@ -28,15 +29,32 @@ export const validate = () => {
     });
 
     occupationInput.addEventListener("change", function() {
-        if (occupationInput.value === "Outro") {
-            occupationOtherInput.style.display = "block"; // Show the hidden field
-            occupationOtherInput.focus();
-        } else {
+        const occupationOtherEmpty = occupationOtherInput.querySelector("#id_profile_field_occupation_other");
+        const occupationSocialMediaEmpty = occupationOtherInput.querySelector("#id_profile_field_occupation_socialmedia_label");
+    
+        switch (occupationInput.value) {
+            case "Outro":
+                occupationOtherInput.style.display = "block"; // Show the hidden field
+                occupationOtherInput.focus();
+                break;
+    
+            case "Trabalhador(a) de estabelecimentos de lazer que vendem bebida alcóolica":
+            case "Trabalhador(a) de outras áreas do setor de arte e cultura":
+            case "Trabalhador(a) atuando em implementação do Protocolo Não é Não":
+            case "Trabalhador(a) da sociedade civil":
+                occupationSocialMediaInput.style.display = "block"; // Show the hidden field
+                occupationSocialMediaInput.focus();
+                break;
+    
+            default:
+                
             occupationOtherInput.style.display = "none"; // Hide the field if another option is selected
-            const occupationText = occupationOtherInput.querySelector("#id_profile_field_occupation_other");
-            occupationText.value = "";
+            occupationOtherEmpty.value = "";
+            occupationSocialMediaEmpty.value = "";
+                break;
         }
     });
+    
 
     genderInput.addEventListener("change", function() {
         if (genderInput.value === "Outros") {
